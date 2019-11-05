@@ -22,9 +22,9 @@ app.get('/location', (request,response) => {
     response.send(locationData);
   }
   catch(error) {
-    errorHandler('Something went wrong', request,response);
+    let message = errorHandler(error);
+    response.status(message.status).send(message.responseText);
   }
-
 });
 
 app.get('/weather', (request,response) => {
@@ -40,7 +40,8 @@ app.get('/weather', (request,response) => {
     response.send(forecastDataArray);
   }
   catch(error) {
-    errorHandler('Something went wrong', request,response)
+    let message = errorHandler(error);
+    response.status(message.status).send(message.responseText);
   }
 })
 
@@ -57,9 +58,14 @@ function Location(city, geoData) {
   this.longitude = geoData.results[0].geometry.location.lng;
 }
 
-function errorHandler(error,request,response) {
-  response.status(500).send(error);
+function errorHandler() {
+  let errObj = {
+    status: 500,
+    responseText: 'Sorry something went wrong',
+  };
+  return errObj;
 }
+
 
 app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
 app.listen(PORT, () => console.log(`App is listening on ${PORT}`));
