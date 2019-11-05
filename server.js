@@ -12,9 +12,13 @@ const app = express();
 
 app.use(cors());
 
+// Routes
+app.get('/location', handleLocation);
+app.get('/weather', handleWeather)
 
-// GET request for geo.json data
-app.get('/location', (request,response) => {
+
+// Function to handle geo.json data
+function handleLocation(request,response){
   try {
     const city = request.query.data;
     const geoData = require('./data/geo.json');
@@ -25,10 +29,10 @@ app.get('/location', (request,response) => {
     let message = errorHandler(error);
     response.status(message.status).send(console.log(message.responseText));
   }
-});
+};
 
-// GET request for darksky.json data
-app.get('/weather', (request,response) => {
+// Function to handle darksky.json data
+function handleWeather(request,response){
   try {
     const weatherData = require('./data/darksky.json');
     let dailyData = weatherData.daily.data;
@@ -42,7 +46,7 @@ app.get('/weather', (request,response) => {
     let message = errorHandler(error);
     response.status(message.status).send(message.responseText);
   }
-})
+};
 
 // Weather Constructor Function
 function Weather(day, weather) {
