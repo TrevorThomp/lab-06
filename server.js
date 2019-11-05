@@ -11,7 +11,6 @@ const PORT = process.env.PORT;
 const app = express();
 
 app.use(cors());
-app.use(express.static('./front-end'));
 
 
 // GET request for geo.json data
