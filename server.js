@@ -3,7 +3,7 @@
 // Load Environment Variables from the .env file
 require('dotenv').config();
 
-
+// Application Dependencies
 const express =require('express');
 const cors = require('cors');
 
@@ -11,9 +11,10 @@ const PORT = process.env.PORT;
 const app = express();
 
 app.use(cors());
-
 app.use(express.static('./front-end'));
 
+
+// GET request for geo.json data
 app.get('/location', (request,response) => {
   const locationError = 'Sorry about that, only lynnwood is a valid response.';
   const city = request.query.data;
@@ -33,6 +34,7 @@ app.get('/location', (request,response) => {
   }
 });
 
+// GET request for darksky.json data
 app.get('/weather', (request,response) => {
   try {
     const weatherData = require('./data/darksky.json');
@@ -48,11 +50,13 @@ app.get('/weather', (request,response) => {
   }
 })
 
+// Weather Constructor Function
 function Weather(day, weather) {
   this.forecast = weather;
   this.time = day;
 }
 
+// Location Constructor Function
 function Location(city, geoData) {
   this.search_query = city;
   this.formatted_query = geoData.results[0].formatted_address;
@@ -60,6 +64,7 @@ function Location(city, geoData) {
   this.longitude = geoData.results[0].geometry.location.lng;
 }
 
+// Error Handler function to throw
 function errorHandler() {
   let errObject = {
     status: 500,
@@ -68,8 +73,10 @@ function errorHandler() {
   return errObject;
 }
 
-
+// Error if route does not exist
 app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
+
+// PORT to for the server to listen too
 app.listen(PORT, () => console.log(`App is listening on ${PORT}`));
 
 
