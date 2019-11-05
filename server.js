@@ -15,14 +15,8 @@ app.use(cors());
 
 // GET request for geo.json data
 app.get('/location', (request,response) => {
-  const locationError = 'Sorry about that, only lynnwood is a valid response.';
-  const city = request.query.data;
-
-  if (city.toLowerCase() !== 'lynnwood') {
-    throw locationError;
-  }
-
   try {
+    const city = request.query.data;
     const geoData = require('./data/geo.json');
     const locationData = new Location(city,geoData);
     response.send(locationData);
@@ -37,8 +31,9 @@ app.get('/location', (request,response) => {
 app.get('/weather', (request,response) => {
   try {
     const weatherData = require('./data/darksky.json');
+    let dailyData = weatherData.daily.data;
     let forecastDataArray = [];
-    weatherData.daily.data.forEach(obj => {
+    dailyData.forEach(obj => {
       forecastDataArray.push(new Weather(new Date(obj.time * 1000).toDateString() , obj.summary))
     })
     response.send(forecastDataArray);
