@@ -21,6 +21,23 @@ app.get('/location', (request,response) => {
   response.send(locationData);
 });
 
+app.get('/weather', (request,response) => {
+  const weatherData = require('./data/darksky.json');
+  let forecastDataArray = [];
+
+  for ( let i = 0; i < weatherData.daily.data.length; i++) {
+    let forecastData = new Weather(i, weatherData);
+    forecastDataArray.push(forecastData);
+  }
+
+  response.send(forecastDataArray);
+})
+
+function Weather(i, weatherData) {
+  this.forecast = weatherData.daily.data[i].summary;
+  this.time = weatherData.daily.data[i].time;
+}
+
 function Location(city, geoData) {
   this.search_query = city;
   this.formatted_query = geoData.results[0].formatted_address;
