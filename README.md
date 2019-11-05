@@ -1,25 +1,29 @@
 # Project Name
 
-**Author**: Your Name Goes Here
+**Author**: Trevor Thompson
 **Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+
+This application is taking in a location from user input and getting weather and local data based on longitude and latitude of the inputted city.
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+
+1. Clone remote repo
+2. Inside the terminal use npm install to install the necessary dependencies from the package.JSON file.
+3. Create a heroku application from the files that are contained within your cloned repo.
 
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+
+This application design uses Express, Node.js, jQuery, JavaScript, HTML and CSS.
 
 ## Change Log
 <!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource.
-
-## Credits and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
 -->
+## Credits and Collaborations
+  Conor McCue
+
 
 ## Feature #1: Repository Setup
 
