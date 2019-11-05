@@ -17,9 +17,11 @@ app.use(express.static('./front-end'));
 app.get('/location', (request,response) => {
   const locationError = 'Sorry about that, only lynnwood is a valid response.';
   const city = request.query.data;
+
   if (city.toLowerCase() !== 'lynnwood') {
     throw locationError;
   }
+
   try {
     const geoData = require('./data/geo.json');
     const locationData = new Location(city,geoData);
@@ -35,12 +37,9 @@ app.get('/weather', (request,response) => {
   try {
     const weatherData = require('./data/darksky.json');
     let forecastDataArray = [];
-
-    for ( let i = 0; i < weatherData.daily.data.length; i++) {
-      let forecastData = new Weather(i, weatherData);
-      forecastDataArray.push(forecastData);
-    }
-
+    weatherData.daily.data.forEach(obj => {
+      forecastDataArray.push(new Weather(new Date(obj.time * 1000).toDateString() , obj.summary))
+    })
     response.send(forecastDataArray);
   }
   catch(error) {
@@ -49,10 +48,9 @@ app.get('/weather', (request,response) => {
   }
 })
 
-function Weather(i, weatherData) {
-  this.forecast = weatherData.daily.data[i].summary;
-  let time = new Date(weatherData.daily.data[i].time * 1000);
-  this.time = time.toDateString();
+function Weather(day, weather) {
+  this.forecast = weather;
+  this.time = day;
 }
 
 function Location(city, geoData) {
@@ -63,11 +61,11 @@ function Location(city, geoData) {
 }
 
 function errorHandler() {
-  let errObj = {
+  let errObject = {
     status: 500,
     responseText: 'Sorry something went wrong',
   };
-  return errObj;
+  return errObject;
 }
 
 
