@@ -27,7 +27,7 @@ app.get('/location', (request,response) => {
   }
   catch(error) {
     let message = errorHandler(error);
-    response.status(message.status).send(message.responseText);
+    response.status(message.status).send(console.log(message.responseText));
   }
 });
 
