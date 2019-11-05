@@ -35,7 +35,8 @@ app.get('/weather', (request,response) => {
 
 function Weather(i, weatherData) {
   this.forecast = weatherData.daily.data[i].summary;
-  this.time = weatherData.daily.data[i].time;
+  let time = new Date(weatherData.daily.data[i].time * 1000);
+  this.time = time.toDateString();
 }
 
 function Location(city, geoData) {
