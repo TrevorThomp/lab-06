@@ -17,7 +17,7 @@ app.get('/location', handleLocation);
 app.get('/weather', handleWeather)
 
 
-// GET request for geo.json data
+// Function to handle geo.json data
 function handleLocation(request,response){
   try {
     const city = request.query.data;
@@ -31,7 +31,7 @@ function handleLocation(request,response){
   }
 };
 
-// GET request for darksky.json data
+// Function to handle darksky.json data
 function handleWeather(request,response){
   try {
     const weatherData = require('./data/darksky.json');

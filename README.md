@@ -18,9 +18,15 @@ This application is taking in a location from user input and getting weather and
 This application design uses Express, Node.js, jQuery, JavaScript, HTML and CSS.
 
 ## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
 
--->
+11-05-2019 9:19am - Application now displays map to user that locates their city that they inputted.
+
+11-05-2019 10:25am - Application now parses through darksky.json to append weather data according to their input.
+
+11-05-2019 10:49am - Application now correctly shows the weather time data in a correct format.
+
+11-05-2019 3:03pm - Refactored application code to increase readability.
+
 ## Credits and Collaborations
   Conor McCue
 
