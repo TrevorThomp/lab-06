@@ -23,15 +23,15 @@
 
 ## Feature #1: Repository Setup
 
-Number and name of feature: 
+Number and name of feature: Repository Setup
 
-Estimate of time needed to complete: 
+Estimate of time needed to complete: 10 minutes
 
-Start time: 
+Start time: 8:00am
 
-Finish time: 
+Finish time: 8:15am
 
-Actual time needed to complete: 
+Actual time needed to complete: 15 minutes
 
 ## Feature #2: Locations
 
