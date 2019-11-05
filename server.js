@@ -15,11 +15,40 @@ app.use(cors());
 app.use(express.static('./front-end'));
 
 app.get('/location', (request,response) => {
-  const geoData = require('./data/geo.json');
-  const city = request.query.data;
-  const locationData = new Location(city,geoData);
-  response.send(locationData);
+  try {
+    const geoData = require('./data/geo.json');
+    const city = request.query.data;
+    const locationData = new Location(city,geoData);
+    response.send(locationData);
+  }
+  catch(error) {
+    errorHandler('Something went wrong', request,response);
+  }
+
 });
+
+app.get('/weather', (request,response) => {
+  try {
+    const weatherData = require('./data/darksky.json');
+    let forecastDataArray = [];
+
+    for ( let i = 0; i < weatherData.daily.data.length; i++) {
+      let forecastData = new Weather(i, weatherData);
+      forecastDataArray.push(forecastData);
+    }
+
+    response.send(forecastDataArray);
+  }
+  catch(error) {
+    errorHandler('Something went wrong', request,response)
+  }
+})
+
+function Weather(i, weatherData) {
+  this.forecast = weatherData.daily.data[i].summary;
+  let time = new Date(weatherData.daily.data[i].time * 1000);
+  this.time = time.toDateString();
+}
 
 function Location(city, geoData) {
   this.search_query = city;
