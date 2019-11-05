@@ -15,9 +15,13 @@ app.use(cors());
 app.use(express.static('./front-end'));
 
 app.get('/location', (request,response) => {
+  const locationError = 'Sorry about that, only lynnwood is a valid response.';
+  const city = request.query.data;
+  if (city.toLowerCase() !== 'lynnwood') {
+    throw locationError;
+  }
   try {
     const geoData = require('./data/geo.json');
-    const city = request.query.data;
     const locationData = new Location(city,geoData);
     response.send(locationData);
   }
