@@ -6,6 +6,7 @@ require('dotenv').config();
 // Application Dependencies
 const express =require('express');
 const cors = require('cors');
+const superagent = require('superagent')
 
 const PORT = process.env.PORT;
 const app = express();
@@ -17,41 +18,44 @@ app.get('/location', handleLocation);
 app.get('/weather', handleWeather)
 
 
-// Function to handle geo.json data
-function handleLocation(request,response){
-  try {
-    const city = request.query.data;
-    const geoData = require('./data/geo.json');
-    const locationData = new Location(city,geoData);
-    response.send(locationData);
-  }
-  catch(error) {
-    let message = errorHandler(error);
-    response.status(message.status).send(console.log(message.responseText));
-  }
-};
+
+function handleLocation(request,response) {
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.query.data}&key=${process.env.GEOCODE_API_KEY}`;
+
+  return superagent.get(url)
+    .then(result => {
+      const city = result.body;
+      // const locationData = new Location(request.query.data , city);
+      response.send(new Location(request.query.data , city));
+    })
+    .catch(error => {
+      let message = errorHandler(error);
+      response.status(message.status).send(console.log(message.responseText));
+    });
+}
 
 // Function to handle darksky.json data
-function handleWeather(request,response){
-  try {
-    const weatherData = require('./data/darksky.json');
-    let dailyData = weatherData.daily.data;
-    let forecastDataArray = [];
-    dailyData.forEach(obj => {
-      forecastDataArray.push(new Weather(new Date(obj.time * 1000).toDateString() , obj.summary))
+function handleWeather(request, response) {
+  const url = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${request.query.data.latitude},${request.query.data.longitude}`;
+
+  return superagent.get(url)
+    .then(result => {
+      const weatherSummaries = result.body.daily.data.map(day => {
+        return new Weather(day);
+      });
+
+      response.send(weatherSummaries);
     })
-    response.send(forecastDataArray);
-  }
-  catch(error) {
-    let message = errorHandler(error);
-    response.status(message.status).send(message.responseText);
-  }
-};
+    .catch(error => {
+      let message = errorHandler(error);
+      response.status(message.status).send(console.log(message.responseText));
+    });
+}
 
 // Weather Constructor Function
-function Weather(day, weather) {
-  this.forecast = weather;
-  this.time = day;
+function Weather(day) {
+  this.forecast = day.summary;
+  this.time = new Date(day.time * 1000).toDateString();
 }
 
 // Location Constructor Function
