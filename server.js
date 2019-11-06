@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 // Load Environment Variables from the .env file
 require('dotenv').config();
@@ -22,34 +22,30 @@ app.get('/weather', handleWeather)
 function handleLocation(request,response) {
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.query.data}&key=${process.env.GEOCODE_API_KEY}`;
 
-  return superagent.get(url)
-    .then(result => {
-      const city = result.body;
-      // const locationData = new Location(request.query.data , city);
-      response.send(new Location(request.query.data , city));
+  superagent.get(url)
+    .then( data => {
+      const geoData = data.body;
+      const location = new Location(request.query.data, geoData);
+      response.status(200).send(location);
     })
-    .catch(error => {
-      let message = errorHandler(error);
-      response.status(message.status).send(console.log(message.responseText));
-    });
+    .catch( error => {
+      response.status(500).send('Status: 500. Sorry, there is something not quite right');
+    })
 }
 
-// Function to handle darksky.json data
+// // Function to handle darksky.json data
 function handleWeather(request, response) {
   const url = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${request.query.data.latitude},${request.query.data.longitude}`;
 
-  return superagent.get(url)
-    .then(result => {
-      const weatherSummaries = result.body.daily.data.map(day => {
-        return new Weather(day);
-      });
-
-      response.send(weatherSummaries);
+  superagent.get(url)
+    .then( data => {
+      const weatherSummaries = data.body.daily.data.map(day => new Weather(day));
+      response.status(200).send(weatherSummaries);
     })
-    .catch(error => {
-      let message = errorHandler(error);
-      response.status(message.status).send(console.log(message.responseText));
+    .catch( error => {
+      errorHandler('So sorry, something went really wrong', request, response);
     });
+
 }
 
 // Weather Constructor Function
@@ -67,12 +63,8 @@ function Location(city, geoData) {
 }
 
 // Error Handler function to throw
-function errorHandler() {
-  let errObject = {
-    status: 500,
-    responseText: 'Sorry something went wrong',
-  };
-  return errObject;
+function errorHandler(error,request,response) {
+  response.status(500).send(error);
 }
 
 // Error if route does not exist
@@ -80,5 +72,3 @@ app.use('*', (request, response) => response.send('Sorry, that route does not ex
 
 // PORT to for the server to listen too
 app.listen(PORT, () => console.log(`App is listening on ${PORT}`));
-
-
