@@ -14,10 +14,13 @@ const app = express();
 app.use(cors());
 
 // Routes
+app.get('/', homePage);
 app.get('/location', handleLocation);
 app.get('/weather', handleWeather)
 
-
+function homePage(request,response) {
+  response.status(200).send('Welcome to the Home Page!');
+}
 
 function handleLocation(request,response) {
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${request.query.data}&key=${process.env.GEOCODE_API_KEY}`;
