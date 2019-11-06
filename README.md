@@ -75,6 +75,54 @@ Estimate of time needed to complete: 40 minutes
 
 Start time: 10:50am
 
+Finish time: 12:00pm
+
+Actual time needed to complete: 1 hour 10 minutes
+
+## Feature #5: Data Formatting
+
+Number and name of feature: Data Formatting
+
+Estimate of time needed to complete: 
+
+Start time: 
+
+Finish time: 
+
+Actual time needed to complete: 
+
+## Feature #6: Locations
+
+Number and name of feature: Locations
+
+Estimate of time needed to complete: 
+
+Start time: 
+
+Finish time:
+
+Actual time needed to complete: 
+
+## Feature #7: Weather
+
+Number and name of feature: Weather
+
+Estimate of time needed to complete: 
+
+Start time: 
+
+Finish time: 
+
+Actual time needed to complete: 
+
+## Feature #8: EventBrite
+
+Number and name of feature: EventBrite
+
+Estimate of time needed to complete: 
+
+Start time: 
+
 Finish time: 
 
 Actual time needed to complete: 
